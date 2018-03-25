@@ -5,8 +5,8 @@ import subprocess
 import logging
 _logging = logging.getLogger(__name__)
 
-from wordpress.cd.drivers import driver
-from wordpress.cd.drivers.base import BaseDriver
+from wordpress_cd.drivers import driver
+from wordpress_cd.drivers.base import BaseDriver
 
 
 @driver('s3')
