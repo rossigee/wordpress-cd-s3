@@ -6,6 +6,9 @@ setup(name = 'wordpress-cd-s3',
     author = 'Ross Golder',
     author_email = 'ross@golder.org',
     url = 'https://github.com/rossigee/wordpress-cd-s3',
+    install_requires = [
+      'wordpress-cd'
+    ],
     packages = [
       'wordpress_cd_s3',
     ]
