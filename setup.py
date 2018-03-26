@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name = 'wordpress-cd-s3',
-    version = '0.1.0',
+    version = '0.1.1',
     description = 'Rancher driver to deploy WP artifacts to S3 buckets.',
     author = 'Ross Golder',
     author_email = 'ross@golder.org',

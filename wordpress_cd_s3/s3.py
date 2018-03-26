@@ -20,7 +20,8 @@ class S3BucketDriver(BaseDriver):
 
         self.s3_prefix = os.environ['WPCD_S3_PREFIX']
 
-    def _deploy_module(self, type, module_id):
+    def _deploy_module(self, type):
+        module_id = self.get_module_name()
         zip_file = "build/{0}.zip".format(module_id)
         s3location = "{0}/{1}.zip".format(self.s3_prefix, module_id)
         _logging.info("Deploying '{1}' {0} branch '{2}' to AWS S3 location '{3}' (job id: {4})...".format(type, module_id, self.git_branch, s3location, self.job_id))
