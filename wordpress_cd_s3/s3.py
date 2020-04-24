@@ -19,6 +19,7 @@ class S3BucketDriver(BaseDriver):
         super(S3BucketDriver, self).__init__(args)
 
         self.s3_prefix = os.environ['WPCD_S3_PREFIX']
+        self.s3_endpoint = os.getenv('WPCD_S3_ENDPOINT')
 
     def _deploy_module(self, type):
         module_id = self.get_module_name()
@@ -27,9 +28,12 @@ class S3BucketDriver(BaseDriver):
         artefact_dir = get_artefact_dir(work_dir)
         zip_file = "{0}/{1}.zip".format(artefact_dir, module_id)
         s3location = "{0}/{1}.zip".format(self.s3_prefix, module_id)
-        _logging.info("Deploying '{1}' {0} branch '{2}' to AWS S3 location '{3}' (job id: {4})...".format(type, module_id, self.git_branch, s3location, self.job_id))
+        _logging.info("Deploying '{1}' {0} branch '{2}' to S3 location '{3}' (job id: {4})...".format(type, module_id, self.git_branch, s3location, self.job_id))
 
-        uploadargs = ['aws', 's3', '--acl=public-read', 'cp', zip_file, s3location]
+        uploadargs = ['aws', 's3', '--acl=public-read']
+        if self.s3_endpoint is not None:
+            uploadargs = uploadargs + ['--endpoint', self.s3_endpoint]
+        uploadargs = uploadargs + ['cp', zip_file, s3location]
         uploadenv = os.environ.copy()
         uploadproc = subprocess.Popen(uploadargs, stderr=subprocess.PIPE, env=uploadenv)
         uploadproc.wait()
